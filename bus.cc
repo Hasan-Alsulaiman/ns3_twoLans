@@ -57,7 +57,7 @@ main (int argc, char *argv[])
   csmaDevices2 = csma.Install (nodes2);
 
   // adding p2p nodes to device container
-    NetDeviceContainer p2pDevices;
+  NetDeviceContainer p2pDevices;
   p2pDevices = pointToPoint.Install (p2pNodes);
 
   InternetStackHelper stack;
@@ -67,10 +67,13 @@ main (int argc, char *argv[])
   Ipv4AddressHelper address;
   // first LAN's IP
   address.SetBase ("10.1.1.0", "255.255.255.0");
+  Ipv4InterfaceContainer LAN1_interfaces;
+  LAN1_interfaces = address.Assign (csmaDevices);
+  
   // second LAN's IP
-    address.SetBase ("192.168.100.0", "255.255.255.0");
-
-
+  address.SetBase ("192.168.100.0", "255.255.255.0");
+  Ipv4InterfaceContainer LAN2_interfaces;
+  LAN2_interfaces = address.Assign (csmaDevices2);
 
   Ipv4InterfaceContainer interfaces = address.Assign (csmaDevices);
 
