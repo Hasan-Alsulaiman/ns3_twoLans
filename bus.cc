@@ -71,11 +71,10 @@ main (int argc, char *argv[])
   LAN1_interfaces = address.Assign (csmaDevices);
   
   // second LAN's IP
-  address.SetBase ("192.168.100.0", "255.255.255.0");
+  address.SetBase ("10.1.2.0", "255.255.255.0");
   Ipv4InterfaceContainer LAN2_interfaces;
   LAN2_interfaces = address.Assign (csmaDevices2);
 
-  Ipv4InterfaceContainer interfaces = address.Assign (csmaDevices);
 
   UdpEchoServerHelper echoServer (9);
 
@@ -88,7 +87,7 @@ main (int argc, char *argv[])
   echoClient.SetAttribute ("Interval", TimeValue (Seconds (1.0)));
   echoClient.SetAttribute ("PacketSize", UintegerValue (1024));
 
-  ApplicationContainer clientApps = echoClient.Install (nodes.Get (2));
+  ApplicationContainer clientApps = echoClient.Install (nodes2.Get (2));
   clientApps.Start (Seconds (2.0));
   clientApps.Stop (Seconds (10.0));
 
