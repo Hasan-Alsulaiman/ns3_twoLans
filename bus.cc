@@ -48,8 +48,12 @@ main (int argc, char *argv[])
   pointToPoint.SetDeviceAttribute ("DataRate", StringValue ("5Mbps"));
   pointToPoint.SetChannelAttribute ("Delay", StringValue ("2ms"));
 
+  // adding lAN1 nodes to device container
   NetDeviceContainer csmaDevices;
   csmaDevices = csma.Install (nodes);
+
+  // adding lAN2 nodes to device container
+  NetDeviceContainer csmaDevices2;
   csmaDevices2 = csma.Install (nodes2);
 
   InternetStackHelper stack;
