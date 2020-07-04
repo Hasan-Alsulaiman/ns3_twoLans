@@ -1,4 +1,5 @@
 // create two separate LANs, connect the two with P2P connection, then have one device on LAN1 ping a device on LAN2
+//   (LAN1)         (P2P)        (LAN2)
 // n1----n2----n3========n1-----n2-----n3
 // |                                   |
 // echo                              echo
