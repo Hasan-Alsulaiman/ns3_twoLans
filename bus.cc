@@ -7,6 +7,8 @@
 #include "ns3/core-module.h"
 #include "ns3/network-module.h"
 #include "ns3/csma-module.h"
+#include "ns3/point-to-point-module.h"
+
 #include "ns3/internet-module.h"
 #include "ns3/applications-module.h"
 #include "ns3/ipv4-global-routing-helper.h"
@@ -36,7 +38,7 @@ main (int argc, char *argv[])
   // adding nodes from LAN1 and LAN2 to the P2P channel
   NodeContainer p2pNodes;
   p2pNodes.Add (nodes.Get (2));
-  p2pNodes.Add (nodes1.Get (0));
+  p2pNodes.Add (nodes2.Get (0));
 
   // specs of both LANs
   CsmaHelper csma;
@@ -82,7 +84,7 @@ main (int argc, char *argv[])
   serverApps.Start (Seconds (1.0));
   serverApps.Stop (Seconds (10.0));
 
-  UdpEchoClientHelper echoClient (interfaces.GetAddress (0), 9);
+  UdpEchoClientHelper echoClient (LAN1_interfaces.GetAddress (0), 9);
   echoClient.SetAttribute ("MaxPackets", UintegerValue (1));
   echoClient.SetAttribute ("Interval", TimeValue (Seconds (1.0)));
   echoClient.SetAttribute ("PacketSize", UintegerValue (1024));
