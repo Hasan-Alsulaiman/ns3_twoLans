@@ -4,7 +4,14 @@
 // |                                   |
 // echo                              echo
 // server                           client
-
+// 
+// desgin strategy:
+// start by creating nodes for each LAN 
+// from each LAN take one node and add them to a new node container, these will be the P2P connection
+// create device containers for LANs and P2P networks and add their nodes to them
+// install internet stack on all nodes, remember that our P2P nodes already exist as nodes in the LANs so we dont have to install them twice
+// each LAN will have its own IP range, and the P2P network will also have its own IP
+// 
 #include "ns3/core-module.h"
 #include "ns3/network-module.h"
 #include "ns3/csma-module.h"
