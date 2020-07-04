@@ -71,17 +71,21 @@ main (int argc, char *argv[])
   address.SetBase ("10.1.1.0", "255.255.255.0");
   Ipv4InterfaceContainer LAN1_interfaces;
   LAN1_interfaces = address.Assign (csmaDevices);
-  
+
   // second LAN's IP
   address.SetBase ("10.1.2.0", "255.255.255.0");
   Ipv4InterfaceContainer LAN2_interfaces;
   LAN2_interfaces = address.Assign (csmaDevices2);
 
+  // p2p ip
+  address.SetBase ("192.168.200.0", "255.255.255.0");
+  Ipv4InterfaceContainer p2p_interface;
+  p2p_interface = address.Assign (p2pDevices);
 
   UdpEchoServerHelper echoServer (9);
 
   ApplicationContainer serverApps = echoServer.Install (nodes.Get (0));
-  serverApps.Start (Seconds (1.0));
+  serverApps.Start (Seconds (0));
   serverApps.Stop (Seconds (10.0));
 
   UdpEchoClientHelper echoClient (LAN1_interfaces.GetAddress (0), 9);
@@ -90,8 +94,11 @@ main (int argc, char *argv[])
   echoClient.SetAttribute ("PacketSize", UintegerValue (1024));
 
   ApplicationContainer clientApps = echoClient.Install (nodes2.Get (2));
-  clientApps.Start (Seconds (2.0));
+  clientApps.Start (Seconds (1));
   clientApps.Stop (Seconds (10.0));
+
+  // this command will do the routing for us
+  Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
 
   Simulator::Run ();
   Simulator::Destroy ();
