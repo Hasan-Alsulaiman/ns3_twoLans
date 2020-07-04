@@ -62,6 +62,7 @@ main (int argc, char *argv[])
   NetDeviceContainer p2pDevices;
   p2pDevices = pointToPoint.Install (p2pNodes);
 
+  // install internet protocols on our nodes
   InternetStackHelper stack;
   stack.Install (nodes);
   stack.Install (nodes2);
@@ -69,30 +70,37 @@ main (int argc, char *argv[])
   Ipv4AddressHelper address;
   // first LAN's IP
   address.SetBase ("10.1.1.0", "255.255.255.0");
+  // assign above IP to devices
   Ipv4InterfaceContainer LAN1_interfaces;
   LAN1_interfaces = address.Assign (csmaDevices);
 
   // second LAN's IP
   address.SetBase ("10.1.2.0", "255.255.255.0");
+  // assign above IP to devices
   Ipv4InterfaceContainer LAN2_interfaces;
   LAN2_interfaces = address.Assign (csmaDevices2);
 
   // p2p ip
   address.SetBase ("192.168.200.0", "255.255.255.0");
+  // assign above IP to devices
   Ipv4InterfaceContainer p2p_interface;
   p2p_interface = address.Assign (p2pDevices);
 
+// pick a certain port number for the udp server
   UdpEchoServerHelper echoServer (9);
 
+// install udp server in LAN1 node(0)
   ApplicationContainer serverApps = echoServer.Install (nodes.Get (0));
   serverApps.Start (Seconds (0));
   serverApps.Stop (Seconds (10.0));
 
+// configure udp client with ip and port number of server
   UdpEchoClientHelper echoClient (LAN1_interfaces.GetAddress (0), 9);
   echoClient.SetAttribute ("MaxPackets", UintegerValue (1));
   echoClient.SetAttribute ("Interval", TimeValue (Seconds (1.0)));
   echoClient.SetAttribute ("PacketSize", UintegerValue (1024));
 
+// install udp application on lan2 node(2)
   ApplicationContainer clientApps = echoClient.Install (nodes2.Get (2));
   clientApps.Start (Seconds (1));
   clientApps.Stop (Seconds (10.0));
