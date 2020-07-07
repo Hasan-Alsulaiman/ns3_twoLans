@@ -13,7 +13,7 @@
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE ("FirstScriptExample");
+NS_LOG_COMPONENT_DEFINE ("LAN_Example");
 
 int
 main ()
